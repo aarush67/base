@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #1a1a1a;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    background: #2a2a2a;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #00ff88;
+}
+
+.input-section, .output-section {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #a0a0a0;
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    padding: 12px;
+    background: #3a3a3a;
+    border: 1px solid #4a4a4a;
+    border-radius: 8px;
+    color: #e0e0e0;
+    font-family: 'Inter', monospace;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+}
+
+textarea[readonly] {
+    background: #333;
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    background: #3a3a3a;
+    border: 1px solid #4a4a4a;
+    border-radius: 8px;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #00ff88;
+    border: none;
+    border-radius: 8px;
+    color: #1a1a1a;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #00cc6f;
+}
+
+.copy-btn {
+    background: #4a4a4a;
+    color: #e0e0e0;
+}
+
+.copy-btn:hover {
+    background: #5a5a5a;
+}
+
+.copy-feedback {
+    display: none;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #00ff88;
+    text-align: center;
+}
