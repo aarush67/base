@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Converter</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Base64 Converter</h1>
+        <div class="input-section">
+            <label for="file-input">Upload a file:</label>
+            <input type="file" id="file-input" accept="*/*">
+            <label for="text-input">Or paste text:</label>
+            <textarea id="text-input" placeholder="Type text here..." spellcheck="false"></textarea>
+            <button class="convert-btn" onclick="convertToBase64()">Convert to Base64</button>
+        </div>
+        <div class="output-section">
+            <label for="output">Base64 Output:</label>
+            <textarea id="output" placeholder="Your Base64 will appear here..." readonly></textarea>
+            <button class="copy-btn" onclick="copyOutput()">Copy to Clipboard</button>
+            <span id="copy-feedback" class="copy-feedback">Copied!</span>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
