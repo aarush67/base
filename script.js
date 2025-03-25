@@ -21,12 +21,15 @@ function switchTab(tab) {
 function clearOutputs() {
     const textOutput = document.getElementById("text-output");
     const imageOutput = document.getElementById("image-output");
+    const videoOutput = document.getElementById("video-output");
     const copyBtn = document.querySelector(".copy-btn");
     textOutput.style.display = "none";
     imageOutput.style.display = "none";
+    videoOutput.style.display = "none";
     copyBtn.style.display = "none";
     textOutput.value = "";
     imageOutput.src = "";
+    videoOutput.src = "";
 }
 
 function encodeToBase64() {
@@ -34,6 +37,7 @@ function encodeToBase64() {
     const textInput = document.getElementById("text-input").value;
     const textOutput = document.getElementById("text-output");
     const imageOutput = document.getElementById("image-output");
+    const videoOutput = document.getElementById("video-output");
     const copyBtn = document.querySelector(".copy-btn");
 
     clearOutputs();
@@ -68,6 +72,7 @@ function decodeFromBase64() {
     const base64Input = document.getElementById("base64-input").value;
     const textOutput = document.getElementById("text-output");
     const imageOutput = document.getElementById("image-output");
+    const videoOutput = document.getElementById("video-output");
     const copyBtn = document.querySelector(".copy-btn");
 
     clearOutputs();
@@ -79,25 +84,34 @@ function decodeFromBase64() {
     }
 
     try {
-        // Check if it's an image by attempting to load it
-        const imageTest = new Image();
-        imageTest.onload = function() {
-            imageOutput.src = `data:image/png;base64,${base64Input}`; // Try PNG first
-            imageOutput.style.display = "block";
+        // Try as video first (e.g., MP4, WebM)
+        const videoTest = document.createElement("video");
+        videoTest.onloadeddata = function() {
+            videoOutput.src = `data:video/mp4;base64,${base64Input}`; // Try MP4 first
+            videoOutput.style.display = "block";
         };
-        imageTest.onerror = function() {
-            // If not an image, assume it's text
-            try {
-                const decodedText = atob(base64Input);
-                textOutput.value = decodedText;
-                textOutput.style.display = "block";
-                copyBtn.style.display = "block";
-            } catch (error) {
-                textOutput.value = "Error: Invalid Base64 string.";
-                textOutput.style.display = "block";
-            }
+        videoTest.onerror = function() {
+            // If not a video, try as image
+            const imageTest = new Image();
+            imageTest.onload = function() {
+                imageOutput.src = `data:image/png;base64,${base64Input}`; // Try PNG first
+                imageOutput.style.display = "block";
+            };
+            imageTest.onerror = function() {
+                // If not an image, assume text
+                try {
+                    const decodedText = atob(base64Input);
+                    textOutput.value = decodedText;
+                    textOutput.style.display = "block";
+                    copyBtn.style.display = "block";
+                } catch (error) {
+                    textOutput.value = "Error: Invalid Base64 string.";
+                    textOutput.style.display = "block";
+                }
+            };
+            imageTest.src = `data:image/png;base64,${base64Input}`;
         };
-        imageTest.src = `data:image/png;base64,${base64Input}`;
+        videoTest.src = `data:video/mp4;base64,${base64Input}`;
     } catch (error) {
         textOutput.value = "Error: Invalid Base64 string.";
         textOutput.style.display = "block";
