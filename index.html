@@ -3,24 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base64 Converter</title>
+    <title>Base64 Transcoder</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>Base64 Converter</h1>
-        <div class="input-section">
+        <h1>Base64 Transcoder</h1>
+        <div class="tab-section">
+            <button class="tab active" onclick="switchTab('encode')">Encode</button>
+            <button class="tab" onclick="switchTab('decode')">Decode</button>
+        </div>
+
+        <!-- Encode Section -->
+        <div id="encode-section" class="section">
             <label for="file-input">Upload a file:</label>
             <input type="file" id="file-input" accept="*/*">
             <label for="text-input">Or paste text:</label>
             <textarea id="text-input" placeholder="Type text here..." spellcheck="false"></textarea>
-            <button class="convert-btn" onclick="convertToBase64()">Convert to Base64</button>
+            <button class="convert-btn" onclick="encodeToBase64()">Convert to Base64</button>
         </div>
+
+        <!-- Decode Section -->
+        <div id="decode-section" class="section" style="display: none;">
+            <label for="base64-input">Paste Base64 string:</label>
+            <textarea id="base64-input" placeholder="Paste Base64 here..." spellcheck="false"></textarea>
+            <button class="convert-btn" onclick="decodeFromBase64()">Decode Base64</button>
+        </div>
+
+        <!-- Output Section -->
         <div class="output-section">
-            <label for="output">Base64 Output:</label>
-            <textarea id="output" placeholder="Your Base64 will appear here..." readonly></textarea>
-            <button class="copy-btn" onclick="copyOutput()">Copy to Clipboard</button>
+            <label>Output:</label>
+            <textarea id="text-output" placeholder="Text output will appear here..." readonly style="display: none;"></textarea>
+            <img id="image-output" style="display: none; max-width: 100%; border-radius: 8px;" alt="Decoded Image">
+            <button class="copy-btn" onclick="copyOutput()" style="display: none;">Copy to Clipboard</button>
             <span id="copy-feedback" class="copy-feedback">Copied!</span>
         </div>
     </div>
