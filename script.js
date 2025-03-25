@@ -1,34 +1,115 @@
-function convertToBase64() {
+function switchTab(tab) {
+    const encodeSection = document.getElementById("encode-section");
+    const decodeSection = document.getElementById("decode-section");
+    const tabs = document.querySelectorAll(".tab");
+
+    tabs.forEach(t => t.classList.remove("active"));
+    event.target.classList.add("active");
+
+    if (tab === "encode") {
+        encodeSection.style.display = "block";
+        decodeSection.style.display = "none";
+    } else {
+        encodeSection.style.display = "none";
+        decodeSection.style.display = "block";
+    }
+
+    // Clear outputs on tab switch
+    clearOutputs();
+}
+
+function clearOutputs() {
+    const textOutput = document.getElementById("text-output");
+    const imageOutput = document.getElementById("image-output");
+    const copyBtn = document.querySelector(".copy-btn");
+    textOutput.style.display = "none";
+    imageOutput.style.display = "none";
+    copyBtn.style.display = "none";
+    textOutput.value = "";
+    imageOutput.src = "";
+}
+
+function encodeToBase64() {
     const fileInput = document.getElementById("file-input");
     const textInput = document.getElementById("text-input").value;
-    const output = document.getElementById("output");
+    const textOutput = document.getElementById("text-output");
+    const imageOutput = document.getElementById("image-output");
+    const copyBtn = document.querySelector(".copy-btn");
+
+    clearOutputs();
 
     if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         const reader = new FileReader();
         reader.onload = function(e) {
             const base64 = e.target.result.split(",")[1]; // Remove "data:..." prefix
-            output.value = base64;
+            textOutput.value = base64;
+            textOutput.style.display = "block";
+            copyBtn.style.display = "block";
         };
         reader.readAsDataURL(file);
     } else if (textInput) {
         try {
             const base64 = btoa(textInput);
-            output.value = base64;
+            textOutput.value = base64;
+            textOutput.style.display = "block";
+            copyBtn.style.display = "block";
         } catch (error) {
-            output.value = "Error: Invalid text for Base64 encoding.";
+            textOutput.value = "Error: Invalid text for Base64 encoding.";
+            textOutput.style.display = "block";
         }
     } else {
-        output.value = "Please upload a file or enter text.";
+        textOutput.value = "Please upload a file or enter text.";
+        textOutput.style.display = "block";
+    }
+}
+
+function decodeFromBase64() {
+    const base64Input = document.getElementById("base64-input").value;
+    const textOutput = document.getElementById("text-output");
+    const imageOutput = document.getElementById("image-output");
+    const copyBtn = document.querySelector(".copy-btn");
+
+    clearOutputs();
+
+    if (!base64Input) {
+        textOutput.value = "Please paste a Base64 string.";
+        textOutput.style.display = "block";
+        return;
+    }
+
+    try {
+        // Check if it's an image by attempting to load it
+        const imageTest = new Image();
+        imageTest.onload = function() {
+            imageOutput.src = `data:image/png;base64,${base64Input}`; // Try PNG first
+            imageOutput.style.display = "block";
+        };
+        imageTest.onerror = function() {
+            // If not an image, assume it's text
+            try {
+                const decodedText = atob(base64Input);
+                textOutput.value = decodedText;
+                textOutput.style.display = "block";
+                copyBtn.style.display = "block";
+            } catch (error) {
+                textOutput.value = "Error: Invalid Base64 string.";
+                textOutput.style.display = "block";
+            }
+        };
+        imageTest.src = `data:image/png;base64,${base64Input}`;
+    } catch (error) {
+        textOutput.value = "Error: Invalid Base64 string.";
+        textOutput.style.display = "block";
     }
 }
 
 function copyOutput() {
-    const output = document.getElementById("output");
+    const textOutput = document.getElementById("text-output");
     const feedback = document.getElementById("copy-feedback");
 
-    if (output.value && output.value !== "Please upload a file or enter text.") {
-        navigator.clipboard.writeText(output.value);
+    if (textOutput.value && textOutput.style.display !== "none") {
+        navigator.clipboard.writeText(textOutput.value);
         feedback.style.display = "block";
         setTimeout(() => {
             feedback.style.display = "none";
