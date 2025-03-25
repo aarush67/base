@@ -32,7 +32,29 @@ h1 {
     color: #00ff88;
 }
 
-.input-section, .output-section {
+.tab-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    background: #3a3a3a;
+    border: none;
+    border-radius: 8px 8px 0 0;
+    color: #a0a0a0;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.tab.active {
+    background: #00ff88;
+    color: #1a1a1a;
+}
+
+.section {
     margin-bottom: 20px;
 }
 
@@ -104,4 +126,8 @@ button:hover {
     font-size: 14px;
     color: #00ff88;
     text-align: center;
+}
+
+.output-section {
+    margin-top: 20px;
 }
